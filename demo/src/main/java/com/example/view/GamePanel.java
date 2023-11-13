@@ -7,7 +7,9 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import com.example.controller.ControllerCollision;
 import com.example.controller.ControllerKey;
+import com.example.controller.ControllerTile;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -16,21 +18,24 @@ public class GamePanel extends JPanel implements Runnable {
 
     public final int tileSize = originalTileSize * scale;
 
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
 
     Thread gameThread;
 
+    public ControllerTile tileM = new ControllerTile(this);
     ControllerKey KeyH = new ControllerKey();
-    Player player = new Player(this, KeyH);
-
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
+    public Player player = new Player(this, KeyH);
+    ControllerCollision cC = new ControllerCollision(this);
 
     int FPS = 60;
+
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -83,6 +88,8 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(gp);
 
         Graphics2D g2 = (Graphics2D) gp;
+
+        tileM.draw(g2);
 
         player.draw(g2);
 

@@ -1,6 +1,7 @@
 package com.example.view;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -14,17 +15,28 @@ public class Player extends Entity {
 
     ControllerKey KeyH;
 
+    public final int screenX, screenY;
+
     public Player(GamePanel gp, ControllerKey KeyH) {
         this.gp = gp;
         this.KeyH = KeyH;
+
+        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
+        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
+
+        solidArea = new Rectangle();
+        solidArea.x = 6;
+        solidArea.y = 30;
+        solidArea.width = 18;
+        solidArea.height = 7;
 
         setDefault();
         getPlayerImage();
     }
 
     public void setDefault() {
-        x = 100;
-        y = 100;
+        worldX = 48;
+        worldY = 136;
         speed = 4;
         direction = "down";
     }
@@ -115,16 +127,40 @@ public class Player extends Entity {
                 || KeyH.leftPressed == true) {
             if (KeyH.upPressed == true) {
                 direction = "up";
-                y -= speed;
+
             } else if (KeyH.downPressed == true) {
                 direction = "down";
-                y += speed;
+
             } else if (KeyH.leftPressed == true) {
                 direction = "left";
-                x -= speed;
+
             } else if (KeyH.rightPressed == true) {
                 direction = "right";
-                x += speed;
+
+            }
+
+            // Check Collision
+
+            collision = false;
+            gp.cC.checkTile(this);
+
+            if (collision == false) {
+                switch (direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                    default:
+                        break;
+                }
             }
 
             spriteCounter++;
@@ -158,8 +194,8 @@ public class Player extends Entity {
                 if (spriteNumber == 3) {
                     image = up3;
                 }
-                if (spriteNumber == 3) {
-                    image = up3;
+                if (spriteNumber == 4) {
+                    image = up4;
                 }
                 break;
             case "down":
@@ -208,7 +244,7 @@ public class Player extends Entity {
                 break;
         }
 
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 
 }
