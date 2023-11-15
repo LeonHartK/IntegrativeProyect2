@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import com.example.controller.ControllerCollision;
 import com.example.controller.ControllerKey;
+import com.example.controller.ControllerMazeGenerator;
 import com.example.controller.ControllerTile;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -32,8 +33,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     int FPS = 60;
 
-    public final int maxWorldCol = 50;
-    public final int maxWorldRow = 50;
+    public final int maxWorldCol = 51;
+    public final int maxWorldRow = 51;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
 

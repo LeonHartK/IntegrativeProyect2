@@ -10,11 +10,15 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
+import com.example.model.Graph;
+import com.example.model.Pair;
+import com.example.model.Vertex;
 import com.example.view.GamePanel;
 import com.example.view.Tile;
 
 public class ControllerTile {
 
+    Graph<Vertex<Pair<Integer, Integer>>> newGraph = new Graph<>(false);
     GamePanel gp;
     public Tile[] tile;
     public int mapTileNum[][];
@@ -24,7 +28,7 @@ public class ControllerTile {
 
         tile = new Tile[10];
 
-        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+        mapTileNum = new int[51][51];
 
         getTileImage();
 
@@ -50,6 +54,10 @@ public class ControllerTile {
 
                     mapTileNum[col][row] = num;
                     col++;
+
+                    if (num == 1) {
+                        newGraph.addVertex(new Vertex<Pair<Integer, Integer>>(new Pair<Integer, Integer>(col, row)));
+                    }
                 }
                 if (col == gp.maxWorldCol) {
                     col = 0;
@@ -58,12 +66,12 @@ public class ControllerTile {
             }
             br.close();
 
-            for (int i = 0; i < mapTileNum.length; i++) {
-                for (int j = 0; j < mapTileNum[i].length; j++) {
-                    System.out.print(mapTileNum[i][j] + " "); // Mostrar el elemento
-                }
-                System.out.println(); // Cambiar de línea al final de cada fila
-            }
+            // for (int i = 0; i < mapTileNum.length; i++) {
+            // for (int j = 0; j < mapTileNum[i].length; j++) {
+            // System.out.print(mapTileNum[i][j] + " "); // Mostrar el elemento
+            // }
+            // System.out.println(); // Cambiar de línea al final de cada fila
+            // }
         } catch (Exception e) {
 
         }

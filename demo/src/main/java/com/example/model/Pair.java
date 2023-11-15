@@ -1,6 +1,14 @@
 package com.example.model;
 
 public class Pair<K, T> {
+    K value1;
+    T value2;
+
+    public Pair(K value1, T value2) {
+        this.value1 = value1;
+        this.value2 = value2;
+    }
+
     public K getValue1() {
         return value1;
     }
@@ -14,14 +22,6 @@ public class Pair<K, T> {
     }
 
     public void setValue2(T value2) {
-        this.value2 = value2;
-    }
-
-    K value1;
-    T value2;
-
-    public Pair(K value1, T value2) {
-        this.value1 = value1;
         this.value2 = value2;
     }
 }

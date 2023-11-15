@@ -197,4 +197,114 @@ public class Graph<K> implements IGraph<K> {
         }
         return new Pair<>(dist, prev);
     }
+
+    @Override
+    public Pair<int[][], MatrizGenerica<Vertex<K>, Vertex<K>>> floyWarshall() {
+        ArrayList<Vertex<K>> vrtx = new ArrayList<>(vertexList.values());
+        int[][] dist = new int[vertexList.size()][vertexList.size()];
+        MatrizGenerica<Vertex<K>, Vertex<K>> parents = new MatrizGenerica<>();
+        for (int i = 0; i < vrtx.size(); i++) {
+            for (int j = 0; j < vrtx.size(); j++) {
+                dist[i][j] = Integer.MAX_VALUE;
+                parents.setValor(vrtx.get(i), vrtx.get(j), null);
+            }
+            dist[i][i] = 0;
+            parents.setValor(vrtx.get(i), vrtx.get(i), vrtx.get(i));
+        }
+        int uI;
+        int vI;
+        for (Vertex<K> u : vrtx) {
+            uI = vrtx.indexOf(u);
+            for (Edge<K> p : u.getAdjacentList()) {
+                Vertex<K> v = p.getVertex();
+                vI = vrtx.indexOf(v);
+                dist[uI][vI] = p.getWeight();
+                parents.setValor(vrtx.get(uI), vrtx.get(vI), u);
+            }
+        }
+        for (int k = 0; k < vrtx.size(); k++) {
+            for (int i = 0; i < vrtx.size(); i++) {
+                for (int j = 0; j < vrtx.size(); j++) {
+                    int dis;
+                    if (dist[i][k] == Integer.MAX_VALUE || dist[k][j] == Integer.MAX_VALUE) {
+                        dis = Integer.MAX_VALUE;
+                    } else {
+                        dis = dist[i][k] + dist[k][j];
+                    }
+                    if (dist[i][j] > dis) {
+                        dist[i][j] = dis;
+                        parents.setValor(vrtx.get(i), vrtx.get(j), parents.getValor(vrtx.get(k), vrtx.get(j)));
+                    }
+                }
+            }
+        }
+        return new Pair<>(dist, parents);
+    }
+
+    @Override
+    public void Prim() {
+        for (Vertex<K> u : vertexList.values()) {
+            u.distance = Integer.MAX_VALUE;
+            u.priority = Integer.MAX_VALUE;
+            u.color = Color.WHITE;
+            u.parent = null;
+        }
+        ArrayList<Vertex<K>> as = new ArrayList<>(vertexList.values());
+        PriorityQueue<Edge<K>> QU = new PriorityQueue<>(Comparator.comparingInt(o -> o.weight));
+        for (Vertex<K> a : as) {
+            QU.addAll(a.getAdjacentList());
+        }
+        Edge<K> minummEdge = QU.remove();
+        Vertex<K> r = minummEdge.getVertex();
+        r.distance = 0;
+        r.priority = 0;
+        PriorityQueue<Vertex<K>> Q = new PriorityQueue<Vertex<K>>(Comparator.comparingInt(o -> o.priority));
+        Q.addAll(vertexList.values());
+        while (!Q.isEmpty()) {
+            Vertex<K> u = Q.remove();
+            for (Edge<K> v : u.adjacentList) {
+                if (v.getVertex().color == Color.WHITE && v.getWeight() < v.getVertex().priority) {
+                    Q.remove(v.getVertex());
+                    v.getVertex().priority = v.getWeight();
+                    Q.add(v.getVertex());
+                    v.getVertex().parent = u;
+                }
+            }
+            u.color = Color.BLACK;
+        }
+    }
+
+    @Override
+    public ArrayList<Pair<Vertex<K>, Edge<K>>> Kruskal() {
+        ArrayList<Vertex<K>> vertices = new ArrayList<>(vertexList.values());
+        ArrayList<Pair<Vertex<K>, Edge<K>>> a = new ArrayList<>();
+        for (Vertex<K> vertex : vertices) {
+            for (Edge<K> edge : vertex.adjacentList) {
+                a.add(new Pair<>(vertex, edge));
+            }
+        }
+        Comparator<Pair<Vertex<K>, Edge<K>>> pairComparator = (o1, o2) -> o1.getValue2().getWeight()
+                - o2.getValue2().getWeight();
+
+        a.sort(pairComparator);
+
+        DisjointSet<Vertex<K>> disjointSet = new DisjointSet<>();
+        for (Vertex<K> vertex : vertices) {
+            disjointSet.makeSet(vertex);
+        }
+
+        ArrayList<Pair<Vertex<K>, Edge<K>>> mst = new ArrayList<>();
+
+        for (Pair<Vertex<K>, Edge<K>> edge : a) {
+            Vertex<K> u = edge.getValue1();
+            Vertex<K> v = edge.getValue2().getVertex();
+            if (disjointSet.findSet(u) != disjointSet.findSet(v)) {
+                mst.add(edge);
+                disjointSet.union(u, v);
+            }
+        }
+
+        return mst;
+
+    }
 }

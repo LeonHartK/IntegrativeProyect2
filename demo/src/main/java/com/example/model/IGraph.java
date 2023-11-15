@@ -1,9 +1,14 @@
 package com.example.model;
 
+import java.util.ArrayList;
 //import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface IGraph<K> {
+    public void Prim();
+
+    public Pair<int[][], MatrizGenerica<Vertex<K>, Vertex<K>>> floyWarshall();
+
     public Pair<HashMap<Vertex<K>, Integer>, HashMap<Vertex<K>, Vertex<K>>> dijsktra(K value);
 
     public void DFS();
@@ -15,6 +20,8 @@ public interface IGraph<K> {
     public boolean edgeExists(K init, K end);
 
     public boolean vertexExists(K vertex);
+
+    public ArrayList<Pair<Vertex<K>, Edge<K>>> Kruskal();
 
     public boolean deleteVertex(K vertex);
 

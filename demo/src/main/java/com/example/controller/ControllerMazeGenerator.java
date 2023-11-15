@@ -11,6 +11,7 @@ public class ControllerMazeGenerator {
     public static final int mMax = 51; // impar
     public static final int BLOQUE = 0;
     public static final int LIBRE = 1;
+    public int[][] laberinto;
 
     public static void agregarParOrdenado(int[][] A, int[] k, int a, int b) {
         boolean Esta = false;
@@ -178,24 +179,24 @@ public class ControllerMazeGenerator {
         }
     }
 
-    // public static void main(String[] args) {
-    // int m = mMax;
-    // int n = nMax;
-    // int[][] laberinto = new int[m][n];
+    public static void main(String[] args) {
+        int m = mMax;
+        int n = nMax;
+        int[][] laberinto = new int[m][n];
 
-    // crearLaberinto(laberinto, m, n);
+        crearLaberinto(laberinto, m, n);
 
-    // // Marcar el punto de inicio (por ejemplo, en la esquina superior izquierda)
-    // laberinto[1][1] = 2;
+        // Marcar el punto de inicio (por ejemplo, en la esquina superior izquierda)
+        laberinto[1][1] = 2;
 
-    // // Marcar el punto final (por ejemplo, en la esquina inferior derecha)
-    // marcarFinalLaberinto(laberinto, m, n, m - 2, n - 2);
+        // Marcar el punto final (por ejemplo, en la esquina inferior derecha)
+        marcarFinalLaberinto(laberinto, m, n, m - 2, n - 2);
 
-    // // mostrarLaberinto(laberinto, m, n);
+        // mostrarLaberinto(laberinto, m, n);
 
-    // guardarLaberintoEnArchivo(laberinto, m, n,
-    // "/demo/src/main/java/com/example/resources/Map/laberinto.txt");
+        guardarLaberintoEnArchivo(laberinto, m, n,
+                "/demo/src/main/java/com/example/resources/Map/laberinto.txt");
 
-    // }
+    }
 
 }
