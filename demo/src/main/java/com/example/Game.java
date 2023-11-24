@@ -12,7 +12,6 @@ public class Game {
         Thread randomMap = new Thread(new Runnable() {
             public void run() {
                 ControllerMazeGenerator.main(args);
-                ;
             }
         });
         randomMap.start();
@@ -31,6 +30,7 @@ public class Game {
 
         window.setVisible(true);
 
+        gamePanel.setupGame();
         gamePanel.startGameThread();
     }
 }

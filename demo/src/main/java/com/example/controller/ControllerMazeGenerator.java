@@ -7,11 +7,16 @@ import java.util.Random;
 
 public class ControllerMazeGenerator {
 
+    // Constants for maze dimensions and cell types
+
     public static final int nMax = 51; // impar
     public static final int mMax = 51; // impar
     public static final int BLOQUE = 0;
     public static final int LIBRE = 1;
     public int[][] laberinto;
+
+    // Method to add a coordinate pair (a, b) to the array A if it's not already
+    // present
 
     public static void agregarParOrdenado(int[][] A, int[] k, int a, int b) {
         boolean Esta = false;
@@ -28,9 +33,11 @@ public class ControllerMazeGenerator {
         }
     }
 
+    // Method to get a random coordinate pair (x, y) from array a, and remove it
+
     public static void obtenerParOrdenadoRandom(int[][] a, int[] k, int[] x, int[] y) {
         if (k[0] == 0) {
-            // No hay elementos en el arreglo, no se puede obtener uno aleatorio.
+            // No elements in the array, cannot get a random one.
             x[0] = -1;
             y[0] = -1;
         } else {
@@ -39,7 +46,7 @@ public class ControllerMazeGenerator {
             x[0] = a[index][0];
             y[0] = a[index][1];
 
-            // Eliminar el elemento seleccionado y reducir la longitud efectiva del arreglo
+            // Remove the selected element and reduce the effective length of the array
             for (int i = index; i < k[0] - 1; i++) {
                 a[i][0] = a[i + 1][0];
                 a[i][1] = a[i + 1][1];
@@ -47,6 +54,8 @@ public class ControllerMazeGenerator {
             k[0]--;
         }
     }
+
+    // Method to create a maze using a modified version of the Prim's algorithm
 
     public static void crearLaberinto(int[][] M, int m, int n) {
         int[][] ID_VECINOS_BLOQUEADOS = new int[m + n][2];
@@ -130,27 +139,14 @@ public class ControllerMazeGenerator {
         }
     }
 
-    public static void mostrarLaberinto(int[][] M, int m, int n) {
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (M[i][j] == BLOQUE) {
-                    System.out.print("#"); // Representa una pared o bloque
-                } else if (M[i][j] == LIBRE) {
-                    System.out.print(" "); // Representa un espacio libre
-                } else if (M[i][j] == 2) {
-                    System.out.print("S"); // Punto de inicio
-                } else if (M[i][j] == 3) {
-                    System.out.print("F"); // Punto de final
-                }
-            }
-            System.out.println(); // Salto de línea al final de cada fila
-        }
-    }
+    // Method to mark the final point in the maze
 
     public static void marcarFinalLaberinto(int[][] M, int m, int n, int x, int y) {
         // Marcar el punto final en la matriz M en la posición (x, y)
         M[x][y] = 3;
     }
+
+    // Method to save the maze to a file specified by the given path
 
     public static void guardarLaberintoEnArchivo(int[][] M, int m, int n, String rutaCompleta) {
         try {
@@ -178,6 +174,8 @@ public class ControllerMazeGenerator {
             e.printStackTrace();
         }
     }
+
+    // Main method to demonstrate maze generation and saving
 
     public static void main(String[] args) {
         int m = mMax;

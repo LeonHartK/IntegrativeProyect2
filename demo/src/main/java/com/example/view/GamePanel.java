@@ -7,9 +7,9 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import com.example.controller.AssertSetter;
 import com.example.controller.ControllerCollision;
 import com.example.controller.ControllerKey;
-import com.example.controller.ControllerMazeGenerator;
 import com.example.controller.ControllerTile;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -30,6 +30,8 @@ public class GamePanel extends JPanel implements Runnable {
     ControllerKey KeyH = new ControllerKey();
     public Player player = new Player(this, KeyH);
     ControllerCollision cC = new ControllerCollision(this);
+    public AssertSetter aSetter = new AssertSetter(this);
+    public SuperObject obj[] = new SuperObject[10];
 
     int FPS = 60;
 
@@ -45,6 +47,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.addKeyListener(KeyH);
         this.setFocusable(true);
+    }
+
+    public void setupGame() {
+        aSetter.setObject();
     }
 
     public void startGameThread() {
@@ -91,6 +97,12 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) gp;
 
         tileM.draw(g2);
+
+        for (int i = 0; i < obj.length; i++) {
+            if (obj[i] != null) {
+                obj[i].draw(g2, this);
+            }
+        }
 
         player.draw(g2);
 
