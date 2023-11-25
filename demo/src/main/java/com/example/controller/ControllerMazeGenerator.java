@@ -287,8 +287,6 @@ public class ControllerMazeGenerator {
             camino.put(actual.getValue()[0] + "," + actual.getValue()[1], actual.getValue());
             actual = actual.parent;
         }
-        // System.out.println(camino.toString());
-
         return camino;
     }
 }

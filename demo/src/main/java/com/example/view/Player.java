@@ -243,8 +243,6 @@ public class Player extends Entity {
             default:
                 break;
         }
-        System.out.println(worldX);
-        System.out.println(worldY);
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 
