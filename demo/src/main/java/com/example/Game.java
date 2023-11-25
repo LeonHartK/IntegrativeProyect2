@@ -6,6 +6,12 @@ import com.example.controller.ControllerMazeGenerator;
 import com.example.view.GamePanel;
 
 public class Game {
+    public static GamePanel gamePanel = new GamePanel();
+
+    public static GamePanel getGamePanel() {
+        return gamePanel;
+    }
+
     public static void main(String[] args) {
         JFrame window = new JFrame();
 
@@ -20,7 +26,7 @@ public class Game {
         window.setResizable(false);
         window.setTitle("Backroom");
 
-        GamePanel gamePanel = new GamePanel();
+        gamePanel = new GamePanel();
 
         window.add(gamePanel);
 

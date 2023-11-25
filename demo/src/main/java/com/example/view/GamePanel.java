@@ -29,6 +29,11 @@ public class GamePanel extends JPanel implements Runnable {
     public ControllerTile tileM = new ControllerTile(this);
     ControllerKey KeyH = new ControllerKey();
     public Player player = new Player(this, KeyH);
+
+    public Player getPlayer() {
+        return player;
+    }
+
     ControllerCollision cC = new ControllerCollision(this);
     public AssertSetter aSetter = new AssertSetter(this);
     public SuperObject obj[] = new SuperObject[10];

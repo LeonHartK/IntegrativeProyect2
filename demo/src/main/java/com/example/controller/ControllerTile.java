@@ -7,9 +7,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
+import com.example.Game;
 import com.example.model.Graph;
 import com.example.model.Pair;
 import com.example.model.Vertex;
@@ -20,11 +23,18 @@ public class ControllerTile {
 
     Graph<Vertex<Pair<Integer, Integer>>> newGraph = new Graph<>(false);
     GamePanel gp;
+    ControllerKey createPath;
     public Tile[] tile;
     public static int mapTileNum[][];
+    public long currentTime;
+    public boolean generatingPath;
 
     public ControllerTile(GamePanel gPanel) {
+        currentTime = System.currentTimeMillis();
+
         this.gp = gPanel;
+
+        createPath = new ControllerKey();
 
         tile = new Tile[10];
 
@@ -88,6 +98,10 @@ public class ControllerTile {
             File newFile2 = new File(
                     System.getProperty("user.dir") + "/demo/src/main/java/com/example/resources/Map/Wall.png");
             tile[1].image = ImageIO.read(newFile2);
+            tile[2] = new Tile();
+            File newFile3 = new File(
+                    System.getProperty("user.dir") + "/demo/src/main/java/com/example/resources/Map/GreenPath.png");
+            tile[2].image = ImageIO.read(newFile3);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,6 +111,18 @@ public class ControllerTile {
 
         int worldCol = 0;
         int worldRow = 0;
+
+        HashMap<String, int[]> path = new HashMap<>();
+
+        long actualTime = System.currentTimeMillis();
+
+        if (Game.getGamePanel().getPlayer().getKeyH().keyPPressed) {
+            if (actualTime - currentTime > 1000) {
+                generatingPath = true;
+                currentTime = System.currentTimeMillis();
+                path = ControllerMazeGenerator.getMinimunPath();
+            }
+        }
 
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
 
@@ -112,7 +138,11 @@ public class ControllerTile {
                     worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                     worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
-                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                if (generatingPath && path.containsKey(worldCol + "," + worldRow)) {
+                    g2.drawImage(tile[2].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                } else {
+                    g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                }
             }
 
             worldCol++;
@@ -123,7 +153,6 @@ public class ControllerTile {
             }
 
         }
-
     }
 
 }

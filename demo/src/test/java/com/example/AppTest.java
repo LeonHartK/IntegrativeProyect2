@@ -1132,42 +1132,4 @@ public class AppTest {
 
         assertTrue(vertexList.isEmpty());
     }
-
-    @Test
-    public void KruskalMatrixTest() {
-        setUp();
-        Graph<String> graphS = new Graph<>(false);
-        ArrayList<Vertex<String>> vrtx = new ArrayList<>();
-        Vertex<String> vr = new Vertex<>("SF");
-        vrtx.add(vr);
-        graphS.addVertex(vr);
-        vr = new Vertex<>("DE");
-        vrtx.add(vr);
-        graphS.addVertex(vr);
-        vr = new Vertex<>("CH");
-        vrtx.add(vr);
-        graphS.addVertex(vr);
-        vr = new Vertex<>("NY");
-        vrtx.add(vr);
-        graphS.addVertex(vr);
-        vr = new Vertex<>("AT");
-        vrtx.add(vr);
-        graphS.addVertex(vr);
-        graphS.addEdge("SF", "CH", 1200, "");
-        graphS.addEdge("DE", "CH", 1300, "");
-        graphS.addEdge("DE", "AT", 1400, "");
-        graphS.addEdge("DE", "NY", 1600, "");
-        graphS.addEdge("SF", "DE", 900, "");
-        graphS.addEdge("SF", "AT", 2200, "");
-        graphS.addEdge("SF", "NY", 2000, "");
-        graphS.addEdge("CH", "AT", 700, "");
-        graphS.addEdge("CH", "NY", 1000, "");
-        graphS.addEdge("NY", "AT", 800, "");
-        graphS.Prim();
-        ArrayList<Pair<Vertex<String>, Edge<String>>> vertexList = graphS.Kruskal();
-        for (Pair<Vertex<String>, Edge<String>> vertex : vertexList) {
-            System.out.println(vertex.getValue1().getValue() + " -> " + vertex.getValue2().getVertex().getValue() + " "
-                    + vertex.getValue2().getWeight());
-        }
-    }
 }

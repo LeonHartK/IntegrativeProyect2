@@ -4,9 +4,11 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.example.Game;
 import com.example.model.Graph;
 import com.example.model.Vertex;
 
@@ -19,7 +21,9 @@ public class ControllerMazeGenerator {
     public static final int BLOQUE = 0;
     public static final int LIBRE = 1;
     public int[][] laberinto;
-    static ArrayList<Vertex<int[]>> camino;
+    static HashMap<String, int[]> camino;
+    static HashMap<String, int[]> arreglos;
+    static Graph<int[]> graph;
 
     // Method to add a coordinate pair (a, b) to the array A if it's not already
     // present
@@ -200,7 +204,7 @@ public class ControllerMazeGenerator {
                 "/demo/src/main/java/com/example/resources/Map/laberinto.txt");
 
         ArrayList<int[]> oneParejas = new ArrayList<>();
-        HashMap<String, int[]> arreglos = new HashMap<>();
+        arreglos = new HashMap<>();
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (laberinto[i][j] == 1) {
@@ -210,7 +214,7 @@ public class ControllerMazeGenerator {
                 }
             }
         }
-        Graph<int[]> graph = new Graph<>(false);
+        graph = new Graph<>(false);
         for (int[] onePareja : oneParejas) {
             graph.addVertex(onePareja);
         }
@@ -257,16 +261,19 @@ public class ControllerMazeGenerator {
             }
         }
         graph.DFS();
+    }
+
+    public static HashMap<String, int[]> getMinimunPath() {
+        int[] playerPos = Game.getGamePanel().player.getPlayerPos();
+        System.out.println(playerPos[0] + ", " + playerPos[1]);
         Vertex<int[]> actual = graph.getVertexList().get(arreglos.get("47,49"));
-        camino = new ArrayList<>();
+        camino = new HashMap<>();
         while (actual != null) {
-            camino.add(actual);
+            camino.put(actual.getValue()[0] + "," + actual.getValue()[1], actual.getValue());
             actual = actual.parent;
         }
-        System.out.println(camino.toString());
+        // System.out.println(camino.toString());
 
-        for (int i = 0; i < camino.size(); i++) {
-            ControllerTile.mapTileNum[camino.get(i).getValue()[0]][camino.get(i).getValue()[1]] = 2;
-        }
+        return camino;
     }
 }

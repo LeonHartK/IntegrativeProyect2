@@ -13,7 +13,7 @@ public class Player extends Entity {
 
     GamePanel gp;
 
-    ControllerKey KeyH;
+    public static ControllerKey KeyH;
 
     public final int screenX, screenY;
 
@@ -123,8 +123,8 @@ public class Player extends Entity {
 
     public void update() {
 
-        if (KeyH.upPressed == true || KeyH.downPressed == true || KeyH.rightPressed == true
-                || KeyH.leftPressed == true) {
+        if (KeyH.upPressed || KeyH.downPressed || KeyH.rightPressed
+                || KeyH.leftPressed) {
             if (KeyH.upPressed == true) {
                 direction = "up";
 
@@ -252,4 +252,11 @@ public class Player extends Entity {
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 
+    public ControllerKey getKeyH() {
+        return KeyH;
+    }
+
+    public int[] getPlayerPos() {
+        return new int[] { worldX, worldY };
+    }
 }
