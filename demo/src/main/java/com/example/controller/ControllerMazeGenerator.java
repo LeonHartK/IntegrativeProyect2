@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -221,40 +220,52 @@ public class ControllerMazeGenerator {
         for (int i = 0; i < oneParejas.size(); i++) {
             if (oneParejas.get(i)[0] > 0) {
                 if (laberinto[oneParejas.get(i)[0] - 1][oneParejas.get(i)[1]] != 0) {
-                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," + oneParejas.get(i)[1]);
-                    int[] destiny = arreglos.get((oneParejas.get(i)[0] - 1) + "," + oneParejas.get(i)[1]);
+                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," +
+                            oneParejas.get(i)[1]);
+                    int[] destiny = arreglos.get((oneParejas.get(i)[0] - 1) + "," +
+                            oneParejas.get(i)[1]);
                     if (!graph.edgeExists(origin, destiny)) {
-                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," + oneParejas.get(i)[1] + "to"
+                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," +
+                                oneParejas.get(i)[1] + "to"
                                 + (oneParejas.get(i)[0] - 1) + "," + oneParejas.get(i)[1]);
                     }
                 }
             }
-            if (oneParejas.get(i)[0] < 50) {
+            if (oneParejas.get(i)[0] < 52) {
                 if (laberinto[oneParejas.get(i)[0] + 1][oneParejas.get(i)[1]] != 0) {
-                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," + oneParejas.get(i)[1]);
-                    int[] destiny = arreglos.get((oneParejas.get(i)[0] + 1) + "," + oneParejas.get(i)[1]);
+                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," +
+                            oneParejas.get(i)[1]);
+                    int[] destiny = arreglos.get((oneParejas.get(i)[0] + 1) + "," +
+                            oneParejas.get(i)[1]);
                     if (!graph.edgeExists(origin, destiny)) {
-                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," + oneParejas.get(i)[1] + "to"
+                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," +
+                                oneParejas.get(i)[1] + "to"
                                 + (oneParejas.get(i)[0] + 1) + "," + oneParejas.get(i)[1]);
                     }
                 }
             }
             if (oneParejas.get(i)[1] > 0) {
                 if (laberinto[oneParejas.get(i)[0]][oneParejas.get(i)[1] - 1] != 0) {
-                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," + oneParejas.get(i)[1]);
-                    int[] destiny = arreglos.get((oneParejas.get(i)[0]) + "," + (oneParejas.get(i)[1] - 1));
+                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," +
+                            oneParejas.get(i)[1]);
+                    int[] destiny = arreglos.get((oneParejas.get(i)[0]) + "," +
+                            (oneParejas.get(i)[1] - 1));
                     if (!graph.edgeExists(origin, destiny)) {
-                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," + oneParejas.get(i)[1] + "to"
+                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," +
+                                oneParejas.get(i)[1] + "to"
                                 + (oneParejas.get(i)[0]) + "," + (oneParejas.get(i)[1] - 1));
                     }
                 }
             }
-            if (oneParejas.get(i)[1] < 50) {
+            if (oneParejas.get(i)[1] < 52) {
                 if (laberinto[oneParejas.get(i)[0]][oneParejas.get(i)[1] + 1] != 0) {
-                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," + oneParejas.get(i)[1]);
-                    int[] destiny = arreglos.get((oneParejas.get(i)[0]) + "," + (oneParejas.get(i)[1] + 1));
+                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," +
+                            oneParejas.get(i)[1]);
+                    int[] destiny = arreglos.get((oneParejas.get(i)[0]) + "," +
+                            (oneParejas.get(i)[1] + 1));
                     if (!graph.edgeExists(origin, destiny)) {
-                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," + oneParejas.get(i)[1] + "to"
+                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," +
+                                oneParejas.get(i)[1] + "to"
                                 + (oneParejas.get(i)[0] + 1) + "," + (oneParejas.get(i)[1] + 1));
                     }
                 }

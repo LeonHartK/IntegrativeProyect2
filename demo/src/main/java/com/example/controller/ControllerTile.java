@@ -7,11 +7,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-import javax.sound.midi.SysexMessage;
 
 import com.example.Game;
 import com.example.model.Graph;
@@ -29,8 +27,13 @@ public class ControllerTile {
     public static int mapTileNum[][];
     public long currentTime;
     public boolean generatingPath;
+    public boolean correct; // Mapa generado correctamente
 
     public ControllerTile(GamePanel gPanel) {
+        generatingPath = false;
+
+        correct = false;
+
         currentTime = System.currentTimeMillis();
 
         this.gp = gPanel;
@@ -47,45 +50,51 @@ public class ControllerTile {
     }
 
     public void loadMap(String path) {
-        try {
-            File newFile = new File(
-                    System.getProperty("user.dir") + path);
-            InputStream is = new FileInputStream(newFile);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        while (!correct) {
+            try {
+                File newFile = new File(
+                        System.getProperty("user.dir") + path);
+                InputStream is = new FileInputStream(newFile);
+                BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-            int col = 0;
-            int row = 0;
+                int col = 0;
+                int row = 0;
 
-            while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
-                String line = br.readLine();
-                while (col < gp.maxWorldCol) {
-                    String numbers[] = line.split(" ");
+                while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
+                    String line = br.readLine();
+                    while (col < gp.maxWorldCol) {
+                        String numbers[] = line.split(" ");
 
-                    int num = Integer.parseInt(numbers[col]);
+                        int num = Integer.parseInt(numbers[col]);
 
-                    mapTileNum[col][row] = num;
-                    col++;
-
-                    if (num == 1) {
-                        newGraph.addVertex(new Vertex<Pair<Integer, Integer>>(new Pair<Integer, Integer>(col, row)));
+                        mapTileNum[col][row] = num;
+                        col++;
+                    }
+                    if (col == gp.maxWorldCol) {
+                        col = 0;
+                        row++;
                     }
                 }
-                if (col == gp.maxWorldCol) {
-                    col = 0;
-                    row++;
+                br.close();
+
+                // for (int i = 0; i < mapTileNum.length; i++) {
+                // for (int j = 0; j < mapTileNum[i].length; j++) {
+                // System.out.print(mapTileNum[i][j] + " "); // Mostrar el elemento
+                // }
+                // System.out.println(); // Cambiar de línea al final de cada fila
+                // }
+            } catch (Exception e) {
+
+            }
+            for (int i = 0; i < mapTileNum.length; i++) {
+                for (int j = 0; j < mapTileNum[i].length; j++) {
+                    if (mapTileNum[i][j] != 0) {
+                        correct = true; // Si se encuentra un elemento no cero, retorna falso
+                    }
                 }
             }
-            br.close();
-
-            // for (int i = 0; i < mapTileNum.length; i++) {
-            // for (int j = 0; j < mapTileNum[i].length; j++) {
-            // System.out.print(mapTileNum[i][j] + " "); // Mostrar el elemento
-            // }
-            // System.out.println(); // Cambiar de línea al final de cada fila
-            // }
-        } catch (Exception e) {
-
         }
+
     }
 
     public void getTileImage() {
@@ -115,19 +124,17 @@ public class ControllerTile {
 
         HashMap<String, int[]> path = new HashMap<>();
 
-        // if (Game.getGamePanel().getPlayer().getKeyH().keyPPressed) {
-        // if (System.currentTimeMillis() - currentTime > 1000) {
-        // generatingPath = true;
-        // currentTime = System.currentTimeMillis();
-        // path = ControllerMazeGenerator.getMinimunPath();
-        // }
-        // }
+        if (Game.getGamePanel().getPlayer().getKeyH().KeyPJustPressed()) {
+            generatingPath = true;
+            currentTime = System.currentTimeMillis();
+            path = ControllerMazeGenerator.getMinimunPath();
+        }
 
-        // if (System.currentTimeMillis() - currentTime > 1000) {
-        // generatingPath = false;
-        // } else {
-        // System.out.println("Generando");
-        // }
+        if (generatingPath) {
+            if (System.currentTimeMillis() - currentTime > 1000) {
+                generatingPath = false;
+            }
+        }
 
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
 
@@ -144,8 +151,9 @@ public class ControllerTile {
                     worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
                 if (generatingPath && path.containsKey(worldCol + "," + worldRow)) {
-                    // g2.drawImage(tile[2].image, screenX, screenY, gp.tileSize, gp.tileSize,
-                    // null);
+                    g2.drawImage(tile[2].image, screenX, screenY, gp.tileSize, gp.tileSize,
+                            null);
+                    System.out.println("Generando");
                 } else {
                     g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
                 }

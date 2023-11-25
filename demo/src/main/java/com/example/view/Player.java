@@ -137,8 +137,6 @@ public class Player extends Entity {
             } else if (KeyH.rightPressed == true) {
                 direction = "right";
 
-            } else if (KeyH.keyPPressed == true) {
-                direction = "path";
             }
 
             // Check Collision
@@ -241,9 +239,6 @@ public class Player extends Entity {
                 if (spriteNumber == 4) {
                     image = right4;
                 }
-                break;
-            case "path":
-
                 break;
             default:
                 break;

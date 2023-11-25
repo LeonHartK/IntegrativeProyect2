@@ -7,6 +7,12 @@ public class ControllerKey implements KeyListener {
 
     public boolean upPressed, downPressed, rightPressed, leftPressed, keyPPressed;
 
+    private boolean keyPJustPressed = false;
+
+    public boolean KeyPJustPressed() {
+        return keyPJustPressed;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -30,6 +36,9 @@ public class ControllerKey implements KeyListener {
             rightPressed = true;
         }
         if (code == KeyEvent.VK_P) {
+            if (!keyPPressed) {
+                keyPJustPressed = true;
+            }
             keyPPressed = true;
         }
     }
@@ -52,6 +61,7 @@ public class ControllerKey implements KeyListener {
         }
         if (code == KeyEvent.VK_P) {
             keyPPressed = false;
+            keyPJustPressed = false;
         }
     }
 
