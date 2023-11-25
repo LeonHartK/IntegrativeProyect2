@@ -9,7 +9,6 @@ import java.util.Random;
 
 import com.example.model.Graph;
 import com.example.model.Vertex;
-import com.example.controller.ControllerTile;
 
 public class ControllerMazeGenerator {
 
@@ -20,6 +19,7 @@ public class ControllerMazeGenerator {
     public static final int BLOQUE = 0;
     public static final int LIBRE = 1;
     public int[][] laberinto;
+    static ArrayList<Vertex<int[]>> camino;
 
     // Method to add a coordinate pair (a, b) to the array A if it's not already
     // present
@@ -258,7 +258,7 @@ public class ControllerMazeGenerator {
         }
         graph.DFS();
         Vertex<int[]> actual = graph.getVertexList().get(arreglos.get("47,49"));
-        ArrayList<Vertex<int[]>> camino = new ArrayList<>();
+        camino = new ArrayList<>();
         while (actual != null) {
             camino.add(actual);
             actual = actual.parent;
