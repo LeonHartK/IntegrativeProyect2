@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
+import javax.sound.midi.SysexMessage;
 
 import com.example.Game;
 import com.example.model.Graph;
@@ -114,15 +115,19 @@ public class ControllerTile {
 
         HashMap<String, int[]> path = new HashMap<>();
 
-        long actualTime = System.currentTimeMillis();
+        // if (Game.getGamePanel().getPlayer().getKeyH().keyPPressed) {
+        // if (System.currentTimeMillis() - currentTime > 1000) {
+        // generatingPath = true;
+        // currentTime = System.currentTimeMillis();
+        // path = ControllerMazeGenerator.getMinimunPath();
+        // }
+        // }
 
-        if (Game.getGamePanel().getPlayer().getKeyH().keyPPressed) {
-            if (actualTime - currentTime > 1000) {
-                generatingPath = true;
-                currentTime = System.currentTimeMillis();
-                path = ControllerMazeGenerator.getMinimunPath();
-            }
-        }
+        // if (System.currentTimeMillis() - currentTime > 1000) {
+        // generatingPath = false;
+        // } else {
+        // System.out.println("Generando");
+        // }
 
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
 
@@ -139,7 +144,8 @@ public class ControllerTile {
                     worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
                 if (generatingPath && path.containsKey(worldCol + "," + worldRow)) {
-                    g2.drawImage(tile[2].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                    // g2.drawImage(tile[2].image, screenX, screenY, gp.tileSize, gp.tileSize,
+                    // null);
                 } else {
                     g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
                 }
