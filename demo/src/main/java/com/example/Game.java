@@ -22,6 +22,13 @@ public class Game {
         });
         randomMap.start();
 
+        try {
+            // Esperar a que el hilo randomMap termine
+            randomMap.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Backroom");

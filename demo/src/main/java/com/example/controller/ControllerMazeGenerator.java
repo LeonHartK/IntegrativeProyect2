@@ -277,7 +277,7 @@ public class ControllerMazeGenerator {
     public static HashMap<String, int[]> getMinimunPath() {
         int[] playerPos = Game.getGamePanel().player.getPlayerPos();
         System.out.println(playerPos[0] + ", " + playerPos[1]);
-        Vertex<int[]> actual = graph.getVertexList().get(arreglos.get("47,49"));
+        Vertex<int[]> actual = graph.getVertexList().get(arreglos.get("48,49"));
         camino = new HashMap<>();
         while (actual != null) {
             camino.put(actual.getValue()[0] + "," + actual.getValue()[1], actual.getValue());

@@ -158,7 +158,7 @@ public class ControllerTile {
                     worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
                     worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
-                if (generatingPath && path.containsKey(worldCol + "," + worldRow)) {
+                if (generatingPath && path.containsKey(worldRow + "," + worldCol)) {
                     g2.drawImage(tile[2].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
                     System.out.println("Painting");
                 } else {
