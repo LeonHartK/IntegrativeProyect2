@@ -172,6 +172,10 @@ public class ControllerMazeGenerator {
                         bufferedWriter.write("1 "); // Punto de inicio
                     } else if (M[i][j] == 3) {
                         bufferedWriter.write("0 "); // Punto de final
+                    } else if (M[49][47] == BLOQUE) {
+                        bufferedWriter.write("1 ");
+                    } else if (M[47][49] == BLOQUE) {
+                        bufferedWriter.write("1 ");
                     }
                 }
                 bufferedWriter.newLine();
@@ -277,7 +281,7 @@ public class ControllerMazeGenerator {
     public static HashMap<String, int[]> getMinimunPath() {
         int[] playerPos = Game.getGamePanel().player.getPlayerPos();
         System.out.println(playerPos[0] + ", " + playerPos[1]);
-        Vertex<int[]> actual = graph.getVertexList().get(arreglos.get("48,49"));
+        Vertex<int[]> actual = graph.getVertexList().get(arreglos.get("47,49"));
         camino = new HashMap<>();
         while (actual != null) {
             camino.put(actual.getValue()[0] + "," + actual.getValue()[1], actual.getValue());
