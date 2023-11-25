@@ -28,8 +28,12 @@ public class ControllerTile {
     public long currentTime;
     public boolean generatingPath;
     public boolean correct; // Mapa generado correctamente
+    HashMap<String, int[]> path;
+    public boolean firstTime;
 
     public ControllerTile(GamePanel gPanel) {
+        firstTime = true;
+
         generatingPath = false;
 
         correct = false;
@@ -122,18 +126,22 @@ public class ControllerTile {
         int worldCol = 0;
         int worldRow = 0;
 
-        HashMap<String, int[]> path = new HashMap<>();
-
-        if (Game.getGamePanel().getPlayer().getKeyH().KeyPJustPressed()) {
-            generatingPath = true;
-            currentTime = System.currentTimeMillis();
+        if (firstTime) {
             path = ControllerMazeGenerator.getMinimunPath();
+            firstTime = false;
         }
 
-        if (generatingPath) {
-            if (System.currentTimeMillis() - currentTime > 1000) {
-                generatingPath = false;
+        if (Game.getGamePanel().getPlayer().getKeyH().KeyPJustPressed()) {
+            long actualTime = System.currentTimeMillis();
+            if (actualTime - currentTime > 1000) {
+                generatingPath = true;
+                path = ControllerMazeGenerator.getMinimunPath();
+                currentTime = System.currentTimeMillis();
             }
+        }
+
+        if (generatingPath && System.currentTimeMillis() - currentTime > 1000) {
+            generatingPath = false;
         }
 
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
@@ -151,9 +159,8 @@ public class ControllerTile {
                     worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
                 if (generatingPath && path.containsKey(worldCol + "," + worldRow)) {
-                    g2.drawImage(tile[2].image, screenX, screenY, gp.tileSize, gp.tileSize,
-                            null);
-                    System.out.println("Generando");
+                    g2.drawImage(tile[2].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                    System.out.println("Painting");
                 } else {
                     g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
                 }
