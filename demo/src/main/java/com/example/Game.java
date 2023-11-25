@@ -31,6 +31,7 @@ public class Game {
         window.setVisible(true);
 
         gamePanel.setupGame();
+
         gamePanel.startGameThread();
     }
 }

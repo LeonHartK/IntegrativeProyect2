@@ -21,7 +21,7 @@ public class ControllerTile {
     Graph<Vertex<Pair<Integer, Integer>>> newGraph = new Graph<>(false);
     GamePanel gp;
     public Tile[] tile;
-    public int mapTileNum[][];
+    public static int mapTileNum[][];
 
     public ControllerTile(GamePanel gPanel) {
         this.gp = gPanel;

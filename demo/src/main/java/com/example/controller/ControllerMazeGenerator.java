@@ -3,7 +3,13 @@ package com.example.controller;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
+
+import com.example.model.Graph;
+import com.example.model.Vertex;
+import com.example.controller.ControllerTile;
 
 public class ControllerMazeGenerator {
 
@@ -190,11 +196,77 @@ public class ControllerMazeGenerator {
         // Marcar el punto final (por ejemplo, en la esquina inferior derecha)
         marcarFinalLaberinto(laberinto, m, n, m - 2, n - 2);
 
-        // mostrarLaberinto(laberinto, m, n);
-
         guardarLaberintoEnArchivo(laberinto, m, n,
                 "/demo/src/main/java/com/example/resources/Map/laberinto.txt");
 
-    }
+        ArrayList<int[]> oneParejas = new ArrayList<>();
+        HashMap<String, int[]> arreglos = new HashMap<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (laberinto[i][j] == 1) {
+                    int[] a = { i, j };
+                    oneParejas.add(a);
+                    arreglos.put(i + "," + j, a);
+                }
+            }
+        }
+        Graph<int[]> graph = new Graph<>(false);
+        for (int[] onePareja : oneParejas) {
+            graph.addVertex(onePareja);
+        }
+        for (int i = 0; i < oneParejas.size(); i++) {
+            if (oneParejas.get(i)[0] > 0) {
+                if (laberinto[oneParejas.get(i)[0] - 1][oneParejas.get(i)[1]] != 0) {
+                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," + oneParejas.get(i)[1]);
+                    int[] destiny = arreglos.get((oneParejas.get(i)[0] - 1) + "," + oneParejas.get(i)[1]);
+                    if (!graph.edgeExists(origin, destiny)) {
+                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," + oneParejas.get(i)[1] + "to"
+                                + (oneParejas.get(i)[0] - 1) + "," + oneParejas.get(i)[1]);
+                    }
+                }
+            }
+            if (oneParejas.get(i)[0] < 50) {
+                if (laberinto[oneParejas.get(i)[0] + 1][oneParejas.get(i)[1]] != 0) {
+                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," + oneParejas.get(i)[1]);
+                    int[] destiny = arreglos.get((oneParejas.get(i)[0] + 1) + "," + oneParejas.get(i)[1]);
+                    if (!graph.edgeExists(origin, destiny)) {
+                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," + oneParejas.get(i)[1] + "to"
+                                + (oneParejas.get(i)[0] + 1) + "," + oneParejas.get(i)[1]);
+                    }
+                }
+            }
+            if (oneParejas.get(i)[1] > 0) {
+                if (laberinto[oneParejas.get(i)[0]][oneParejas.get(i)[1] - 1] != 0) {
+                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," + oneParejas.get(i)[1]);
+                    int[] destiny = arreglos.get((oneParejas.get(i)[0]) + "," + (oneParejas.get(i)[1] - 1));
+                    if (!graph.edgeExists(origin, destiny)) {
+                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," + oneParejas.get(i)[1] + "to"
+                                + (oneParejas.get(i)[0]) + "," + (oneParejas.get(i)[1] - 1));
+                    }
+                }
+            }
+            if (oneParejas.get(i)[1] < 50) {
+                if (laberinto[oneParejas.get(i)[0]][oneParejas.get(i)[1] + 1] != 0) {
+                    int[] origin = arreglos.get(oneParejas.get(i)[0] + "," + oneParejas.get(i)[1]);
+                    int[] destiny = arreglos.get((oneParejas.get(i)[0]) + "," + (oneParejas.get(i)[1] + 1));
+                    if (!graph.edgeExists(origin, destiny)) {
+                        graph.addEdge(origin, destiny, 1, oneParejas.get(i)[0] + "," + oneParejas.get(i)[1] + "to"
+                                + (oneParejas.get(i)[0] + 1) + "," + (oneParejas.get(i)[1] + 1));
+                    }
+                }
+            }
+        }
+        graph.DFS();
+        Vertex<int[]> actual = graph.getVertexList().get(arreglos.get("47,49"));
+        ArrayList<Vertex<int[]>> camino = new ArrayList<>();
+        while (actual != null) {
+            camino.add(actual);
+            actual = actual.parent;
+        }
+        System.out.println(camino.toString());
 
+        for (int i = 0; i < camino.size(); i++) {
+            ControllerTile.mapTileNum[camino.get(i).getValue()[0]][camino.get(i).getValue()[1]] = 2;
+        }
+    }
 }
